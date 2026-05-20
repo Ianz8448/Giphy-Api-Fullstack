@@ -5,11 +5,10 @@
     GET /search?q=searchTerm&l=limit
 */
 
-const express = require('express');
+import express from 'express';
 const app = express();
-const port = 3000;
 
-app.use(express.json());
+const port = 3000;
 
 import config from './config.js';
 const apiKey = config.apiKey;
