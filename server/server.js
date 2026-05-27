@@ -15,14 +15,14 @@ const apiKey = config.apiKey;
 
 app.get('/search', async (req, res) => {
     const {q, l} = req.query;
-    const uri = createURI(q, l);
-    // Make API request using the generated URI
 
     if (!q) {
     return res.status(400).json({ error: "Search term 'q' is required" });
-  }
+    }
 
-  const response = await fetch(uri);
+    const uri = createURI(q, l);
+
+    const response = await fetch(uri);
 
   if (!response.ok) {
     return res.status(response.status).json({ error: "Giphy API error" });
