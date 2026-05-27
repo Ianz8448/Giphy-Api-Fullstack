@@ -5,25 +5,31 @@
     GET /search?q=searchTerm&l=limit
 */
 
-import express from 'express';
+import express from "express";
 const app = express();
 
 const port = 3000;
 
-import config from './config.js';
+import config from "./config.js";
 const apiKey = config.apiKey;
 
-app.get('/search', async (req, res) => {
-    const {q, l} = req.query;
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
 
-    if (!q) {
+app.get("/search", async (req, res) => {
+  const { q, l } = req.query;
+
+  if (!q) {
     return res.status(400).json({ error: "Search term 'q' is required" });
-    }
+  }
 
-    const uri = createURI(q, l);
+  const uri = createURI(q, l);
 
-    const response = await fetch(uri);
-
+  const response = await fetch(uri);
   if (!response.ok) {
     return res.status(response.status).json({ error: "Giphy API error" });
   }
@@ -32,12 +38,11 @@ app.get('/search', async (req, res) => {
   res.json(data);
 });
 
-
-
-function createURI (search, searchQuantity) {
-    return `https://api.giphy.com/v1/gifs/search?q=${search}&limit=${searchQuantity}&api_key=${apiKey}`;
+function createURI(search, searchQuantity) {
+  const limit = Math.min(Math.max(1, Number(searchQuantity) || 5), 24);
+  return `https://api.giphy.com/v1/gifs/search?q=${encodeURIComponent(search)}&limit=${limit}&api_key=${apiKey}`;
 }
 
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${3000}/`);
+  console.log(`Server running at http://localhost:${3000}/`);
 });
