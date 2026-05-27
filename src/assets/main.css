@@ -93,14 +93,14 @@ label {
   opacity: 0.85;
 }
 
-#gifs-container {
+.gifs-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 12px;
   margin-top: 32px;
 }
 
-#gifs-container img {
+.gifs-container img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;

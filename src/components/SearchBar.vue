@@ -64,7 +64,7 @@ const search = async () => {
       max="24"
     />
 
-    <button type="button" @click="search">Search</button>
+    <button id="search-button" type="button" @click="search">Search</button>
 
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     <p v-if="loading">Loading GIFs…</p>
